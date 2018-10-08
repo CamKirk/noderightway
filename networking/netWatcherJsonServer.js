@@ -7,10 +7,16 @@ if (!filename) throw Error('no filename');
 
 net.createServer((connection)=>{
     console.log('sub connected');
-    connection.write(`now watching ${filename}`);
+    connection.write(JSON.stringify({
+        type: 'watching',
+        file: filename
+     },"",2));
 
     const watcher = fs.watch(filename, ()=> {
-        connection.write(`file changed ${new Date}`);
+        connection.write(JSON.stringify({
+            type: 'changed',
+            timestamp: Date.now()
+        },"",2));
     });
 
     connection.on('close',()=>{
@@ -18,5 +24,5 @@ net.createServer((connection)=>{
         watcher.close();
     });
 
-}).listen('/tmp/watcher.sock',()=> console.log('listening for subs on sock'));
+}).listen(8000);
 
