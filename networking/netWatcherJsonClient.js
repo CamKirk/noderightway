@@ -9,7 +9,8 @@ client.on('data', (data)=>{
             console.log(`now watching ${message.file}`);
             break;
         case 'changed':
-            const date = new Date(message.timestamp);            console.log(`file changed at ${date}`);
+            const date = new Date(message.timestamp);            
+            console.log(`file changed at ${date}`);
             break;
         default:
             console.log("Unrecognized message type: ${message.type}");

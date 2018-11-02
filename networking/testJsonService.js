@@ -1,10 +1,11 @@
 'use strict';
 const server = require('net').createServer((connection)=>{
     console.log('sub connected');
-    
-    const chunkOne = '{
+
+    const chunkOne = `{ 
         "type":"changed",
-        "timesta';
+        "timesta`;
+
     
     const chunkTwo = 'mp":1538975350426}';
 
