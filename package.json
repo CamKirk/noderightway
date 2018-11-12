@@ -19,5 +19,8 @@
   "homepage": "https://github.com/CamKirk/noderightway#readme",
   "devDependencies": {
     "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "zeromq": "^5.1.0"
   }
 }
