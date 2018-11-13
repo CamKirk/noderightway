@@ -10,12 +10,12 @@ fs.watch(filename, ()=>{
         type: 'changed',
         file: filename,
         timestamp: Date.now()
-    },null,2))
-})
+    },null,2));
+});
 
-publisher.bind('tcp://*:60400', (err)=>{
+publisher.bind('tcp://127.0.0.1:60400', (err)=>{
     if (err){
         throw err;
     }
     console.log('listening for zmq subs');
-})
+});
