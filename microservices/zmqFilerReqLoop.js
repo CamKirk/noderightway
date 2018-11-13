@@ -10,7 +10,7 @@ requester.on('message', (data=>{
     
 }));
 
-requester.connect('tcp://localhost:60402');
+requester.connect('tcp://127.0.0.1:60401');
 
 for (let i = 0; i < 5; i++) {
     console.log((`sending a req for ${filename}`));
