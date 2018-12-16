@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test:watch": "mocha ./databases/test --watch --reporter min "
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "zeromq": "^5.1.0"
   }
 }
