@@ -1,6 +1,7 @@
 {
     "files.watcherExclude": {
         "**/data/cache": true,
-        "**/data/bulk_pg.ldj":true
+        "**/data/bulk_pg.ldj":true,
+        "/data/bulk_result.json":true
     }
 }

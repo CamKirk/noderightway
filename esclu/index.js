@@ -41,12 +41,12 @@ program
     .command('get [path]')
     .description('perform an HTTP GET request for path (defualt is /)')
     .action((path = '/')=>{
-
+        
         const options = {
             url: fullURL(path),
             json: program.json
         };
-
+        
         request(options, handleResponse)
     })
     
@@ -98,7 +98,7 @@ program
 
 program
     .command('bulk <file>')
-    .descrition('read and perform bulk options from the specified file')
+    .description('read and perform bulk options from the specified file')
     .action((file)=>{
         fs.stat(file, (err, stats)=>{
             if(err){
@@ -110,8 +110,20 @@ program
             }
 
             const options = {
-                url: fullURL()
-            }
+                url: fullURL('_bulk'),
+                json: true,
+                headers:{
+                    'content-length':stats.size,
+                    'content-type':'application/json'
+                }
+            };
+
+            const req = request.post(options);
+
+            const stream = fs.createReadStream(file);
+            stream.pipe(req);
+            req.pipe(process.stdout);
+
         })
     })
 
