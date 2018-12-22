@@ -15,6 +15,10 @@ program
     .option('-i, --index  <name>', 'which index to use')
     .option('-t, --type <type>', 'default type for bulk operations');
 
+/**
+ * Handles concatenating path for other routes
+ * @param {string} path 
+ */
 const fullURL  = (path = '') => {
     let url = `http://${program.host}:${program.port}/`
     if(program.index){
@@ -47,6 +51,14 @@ program
     })
     
 
+
+
+/**
+ * Handle responses from routes
+ * @param {any} err error object
+ * @param {Object} res response object
+ * @param {Object} body body object
+ */
 const handleResponse = (err, res, body) => {
     if (program.json) {
         console.log(JSON.stringify(err||body));
@@ -83,6 +95,26 @@ program
             json: program.json
         }, handleResponse);
     });
+
+program
+    .command('bulk <file>')
+    .descrition('read and perform bulk options from the specified file')
+    .action((file)=>{
+        fs.stat(file, (err, stats)=>{
+            if(err){
+                if(program.json){
+                    console.log(JSON.stringify(err));
+                    return;
+                }
+                throw err;
+            }
+
+            const options = {
+                url: fullURL()
+            }
+        })
+    })
+
 program.parse(process.argv);
 
 
