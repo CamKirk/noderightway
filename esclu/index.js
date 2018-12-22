@@ -43,26 +43,37 @@ program
             json: program.json
         };
 
-        request(options, (err, res, body) => {
-            if (program.json){
-                console.log(JSON.stringify(err||body));
-                
-            }else{
-                if(err) throw err;
-                console.log(body);
-                
-            }
+        request(options, handleResponse)
+    })
+    
+
+const handleResponse = (err, res, body => {
+    if (program.json) {
+        console.log(JSON.stringify(err||body));
+        
+    }else{
+        if(err) throw err;
+        console.log(body);
+        
+    }
+})
+    
+program
+    .command('create-index')
+    .description('create an index')
+    .action(()=>{
+        if(!program.index){
+            const msg = 'No index specified! Use --index <name>';
+            if(!program.json) throw Error(msg);
+            console.log(JSON.stringify({error:msg}));
+            return;
             
-        })
+        }
+        request.put(fullUrl(),handleResponse)
     })
 
 
 program.parse(process.argv);
-
-
-
-
-
 
 
 
