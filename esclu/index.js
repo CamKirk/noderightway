@@ -47,7 +47,7 @@ program
     })
     
 
-const handleResponse = (err, res, body => {
+const handleResponse = (err, res, body) => {
     if (program.json) {
         console.log(JSON.stringify(err||body));
         
@@ -56,7 +56,7 @@ const handleResponse = (err, res, body => {
         console.log(body);
         
     }
-})
+};
     
 program
     .command('create-index')
@@ -69,10 +69,20 @@ program
             return;
             
         }
-        request.put(fullUrl(),handleResponse)
+        request.put(fullURL(),handleResponse)
     })
 
-
+program
+    .command('list-indices')
+    .alias('li')
+    .description('get a list of indices in this cluster')
+    .action(()=>{
+        const path = program.json ? '_all': '_cat/indices?v';
+        request({
+            url:fullURL(path),
+            json: program.json
+        }, handleResponse);
+    });
 program.parse(process.argv);
 
 
