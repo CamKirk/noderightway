@@ -13,8 +13,8 @@ program
     .option('-p, --port <number>', 'port number [9200]', '9200')
     .option('-j, --json', 'format output as JSON')
     .option('-i, --index  <name>', 'which index to use')
-    .option('-t, --type <type>', 'default type for bulk operations');
-
+    .option('-t, --type <type>', 'default type for bulk operations')
+    .option('-f, --filter <filter>', 'source filter for query results');
 /**
  * Handles concatenating path for other routes
  * @param {string} path 
@@ -61,7 +61,7 @@ program
  */
 const handleResponse = (err, res, body) => {
     if (program.json) {
-        console.log(JSON.stringify(err||body));
+        console.log(JSON.stringify(err||body, null, 2));
         
     }else{
         if(err) throw err;
@@ -126,6 +126,28 @@ program
 
         })
     })
+
+program
+    .command('query [queries...]')
+    .alias('q')
+    .description('perform an Elasticsearch query')
+    .action((queries = []) => {
+        const options = {
+            url: fullURL('_search'),
+            json: program.json,
+            qs: {},
+        }
+
+        if (queries && queries.length){
+            options.qs.q = queries.join(' ');
+        }
+
+        if (program.filter){
+            options.qs._source = program.filter
+        }
+
+        request(options, handleResponse);
+    });
 
 program.parse(process.argv);
 
