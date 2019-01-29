@@ -156,3 +156,6 @@ program.parse(process.argv);
 if(!program.args.filter((arg)=> typeof arg === 'object').length){
     program.help();
 }
+
+// TODO: Delete index
+// TODO: add single document
